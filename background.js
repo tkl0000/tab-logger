@@ -47,33 +47,40 @@ async function init() {
   });
 }
 
+async function getTitleFromUrl(url) {
+  // Make an HTTP GET request to the URL
+  return fetch(url)
+    .then((response) => {
+      // Check if the request was successful (status code 200)
+      if (response.ok) {
+        return response.text();
+      } else {
+        throw new Error(`Failed to retrieve the page. Status code: ${response.status}`);
+      }
+    })
+    .then((html) => {
+      // Use the regular expression to extract the title content
+      var regex = /<title>(.*?)<\/title>/i
+      var siteHtml = html
+      var ret = (siteHtml.match(regex))[0]
+      ret = ret.replace("<title>", "")
+      ret = ret.replace("</title>", "")
+      return ret
+  })
+  console.log(ret)
+  return ret
+}
+
 async function getTopic(url) {
-  const google = "www.google.com/search";
-  const youtube = "www.youtube.com/watch";
-  if (url.indexOf(google) > -1) {
-    const terms = (url.split(/[=&]/)[1]).split("+");
-    return terms.join(" ");
+  var ret
+  if (!url.startsWith("https://")) {
+    ret =  "Title not found on the page."
   }
-  else if (url.indexOf(youtube) > -1) {
-    const id = url.split(/[=&]/)[1];
-    console.log(id);
-    const apiUrl = `https://www.googleapis.com/youtube/v3/videos?id=${id}&type=video&part=snippet&key=${apiKey}`;
-    var ret = "";
-    await fetch(apiUrl)
-      .then(response => response.json())
-      .then(data => {
-          if (data.items.length > 0) {
-            ret = data.items[0].snippet.title;
-          } else {
-            console.log('Video not found or API response is empty.');
-          }
-      })
-      .catch(error => {
-          console.error('An error occurred:', error);
-      });
-    return ret;
+  else {
+    ret = await getTitleFromUrl(url)
   }
-  else return "";
+  console.log("title: " + ret)
+  return ret
 }
 
 async function newPage() {
