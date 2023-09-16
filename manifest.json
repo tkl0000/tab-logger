@@ -7,13 +7,6 @@
     "default_popup": "popup.html"
   },
   "content_scripts": [
-    {
-      "js": ["before.js"],
-      "matches": [
-        "https://*/*",
-        "http://*/*"
-      ]
-    }
   ],
   "background": {
     "service_worker": "background.js"
