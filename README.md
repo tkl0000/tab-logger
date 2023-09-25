@@ -1,6 +1,6 @@
 # Chrome Tab Logger
 
-![Extension Logo](extension-logo.png)
+![Extension Logo](icon.png)
 
 ## Overview
 
