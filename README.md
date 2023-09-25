@@ -1,7 +1,5 @@
 # Chrome Tab Logger
 
-![Extension Logo](icon.png)
-
 ## Overview
 
 This is a chrome extension for tracking and logging chrome browser activity.
